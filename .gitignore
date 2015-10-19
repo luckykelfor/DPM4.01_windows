@@ -1,0 +1,10 @@
+*.png
+*.jpg
+temp/
+tmp/
+VOCdevkit/VOC2012/Annotations/
+VOCdevkit/VOC2012/JPEGImages/
+VOCdevkit/VOC2012/result/*
+VOCdevkit/VOC2012/*.pdf
+*.mat
+*.pdf
