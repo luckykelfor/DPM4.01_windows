@@ -1,9 +1,12 @@
 function demo()
 
-load('person_final');
-test('000061.jpg', model);
-
-load('INRIA/inriaperson_final');
+%load('person_final');
+load('./INRIA/inriaperson_final.mat');
+ids = textread('test.txt','%s');
+for i =18:length(ids)
+   test(ids{i}, model);
+end 
+ 
 test('000061.jpg', model);
 
 load('VOC2007/bicycle_final');
@@ -28,19 +31,24 @@ disp('press any key to continue'); pause;
 disp('continuing...');
 
 % detect objects
-[dets, boxes] = imgdetect(im, model, -0.3);
+[dets, boxes] = imgdetect(im, model, model.thresh);
 top = nms(dets, 0.5);
 clf;
-showboxes(im, reduceboxes(model, boxes(top,:)));
-disp('detections');
-disp('press any key to continue'); pause;
-disp('continuing...');
+if(size(boxes,1)~=0)
+    showboxes(im, reduceboxes(model, boxes(top,:)));
+    disp('detections');
+    disp('press any key to continue'); pause;
 
-% get bounding boxes
-bbox = bboxpred_get(model.bboxpred, dets, reduceboxes(model, boxes));
-bbox = clipboxes(im, bbox);
-top = nms(bbox, 0.5);
-clf;
-showboxes(im, bbox(top,:));
-disp('bounding boxes');
-disp('press any key to continue'); pause;
+    % get bounding boxes
+    bbox = bboxpred_get(model.bboxpred, dets, reduceboxes(model, boxes));
+    bbox = clipboxes(im, bbox);
+    top = nms(bbox, 0.5);
+    clf;
+    showboxes(im, bbox(top,:));
+    disp('bounding boxes');
+    disp('press any key to continue'); pause;
+
+else
+    disp('No detection, press any key to continue'); pause;
+end
+

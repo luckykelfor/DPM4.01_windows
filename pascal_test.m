@@ -20,7 +20,7 @@ try
 catch
   % parfor gets confused if we use VOCopts
   opts = VOCopts;
-  parfor i = 1:length(ids);
+  for i = 1:length(ids);
     fprintf('%s: testing: %s %s, %d/%d\n', cls, testset, year, ...
             i, length(ids));
     if strcmp('inriaperson', cls)
@@ -30,7 +30,8 @@ catch
       rec = PASreadrecord(sprintf(opts.annopath, ids{i}));
       im = imread([opts.datadir rec.imgname]);
     else
-      im = imread(sprintf(opts.imgpath, ids{i}));  
+     % im = imread(sprintf(opts.imgpath, ids{i}));  
+        im = imread(ids{i});  %change to fit my own model
     end
     [dets, boxes] = imgdetect(im, model, model.thresh);
     if ~isempty(boxes)
@@ -43,7 +44,7 @@ catch
       boxes1{i} = [];
       parts1{i} = [];
     end
-    %showboxes(im, boxes1{i});
+    showboxes(im, boxes1{i});
   end    
   save([cachedir cls '_boxes_' testset '_' suffix], ...
        'boxes1', 'parts1');

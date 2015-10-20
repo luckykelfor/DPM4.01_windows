@@ -43,7 +43,8 @@ for i = 1:length(parts1)
     rec = PASreadrecord(sprintf(VOCopts.annopath, ids{i}));
     im = imread([VOCopts.datadir rec.imgname]);
   else
-    im = imread(sprintf(VOCopts.imgpath, ids{i}));  
+    %im = imread(sprintf(VOCopts.imgpath, ids{i}));  
+      im = imread( ids{i});  %Change to fit my own format
   end
   % clip to image boundary and apply NMS
   [bbox parts] = clipboxes(im, bbox, parts);
